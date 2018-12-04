@@ -14,7 +14,7 @@ The library is written in C\# and developped at [Proxem](https://proxem.com).
 Word2Vec was developped in .Net Standard 2.0 and is compatible with both .Net Framwork and .Net Core thus working on Windows and Linux platform.
 For Mac OS users there shouldn't be any problem but we didn't test extensively.
 
-NumNet relies on **BlasNet** and ***NumNet** for the underlying matrix representations of the words.
+NumNet relies on **BlasNet** and **NumNet** for the underlying matrix representations of the words.
 See [BlasNet](https://github.com/Proxem/BlasNet) and [NumNet](https://github.com/Proxem/NumNet) documentations for further informations.
 
 
