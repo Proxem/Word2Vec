@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<package  xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>    
+    <id>Proxem.NumNet.Word2Vec</id>
+    <version>1.4.0</version>
+    <title>NumNet-Word2Vec</title>
+    <authors>Guillaume Wenzek, Jocelyn Coulmance, Thomas Perrais, Jean-Marc Marty</authors>
+    <owners>Proxem</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>
+        Package containing the base structure for word embeddings : Word2Vec.
+        Contains the base functions for loading and saving a word2vec model in a convenient format.
+        Implement the base functions for exploring word embeddings
+    </description>
+    <releaseNotes>Remove dependency to ValueTuple when targeting .Net47+</releaseNotes>
+    <copyright></copyright>
+    <tags>embeddings word2vec </tags>
+    <summary>base functions on word embeddings</summary>
+    <dependencies>
+      <dependency id="Proxem.NumNet" version="1.4.0"  />
+      <dependency id="System.Text.Encoding.CodePages" version="4.5.0"  />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\readme.txt" target="" />
+    <file src="..\..\build\release\netstandard2.0\Proxem.NumNet.Word2Vec.dll" target="lib/netstandard2.0" />
+    <file src="..\..\build\release\netstandard2.0\Proxem.NumNet.Word2Vec.pdb" target="lib/netstandard2.0" />
+    <file src="..\..\build\release\netstandard2.0\Proxem.NumNet.Word2Vec.deps.json" target="lib/netstandard2.0" />
+  </files>
+</package>

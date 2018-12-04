@@ -1,0 +1,29 @@
+# ignore build output
+build/
+bin
+obj
+/doc/_build/
+/doc/_doxy/
+/Proxem.BlasNet/obsolete/
+/dlls/
+
+/doc/*.XML
+packages
+
+# ignore IDE files
+.vs
+*.suo
+*.sln.ide
+*.user
+*.sublime-workspace
+TestResults/
+*.vspx
+*.userprefs
+
+# ignore dlls
+*.dll
+*.pdb
+/dlls/mkl/learn_tensor.bat
+
+# ignore nuget packages
+*.nupkg

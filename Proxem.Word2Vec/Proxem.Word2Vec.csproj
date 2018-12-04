@@ -1,0 +1,62 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFrameworks>netstandard2.0</TargetFrameworks>
+        <Configurations>Debug;Release</Configurations>
+        <Title>Proxem.NumNet.Word2Vec</Title>
+        <Version>1.1.0</Version>
+        <Copyright></Copyright>
+        <Description>
+            Package containing the base structure for word embeddings : Word2Vec.
+            Contains the base functions for loading and saving a word2vec model in a convenient format.
+            Implement the base functions for exploring word embeddings
+        </Description>
+        <Authors>Jocelyn Coulmance, Guillaume Wenzek, Thomas Perrais, Jean-Marc Marty</Authors>
+        <Company>Proxem</Company>
+        <RepositoryUrl>https://git.dc3.proxem.net/Theanet.git</RepositoryUrl>
+        <PackageTags>embeddings word2vec</PackageTags>
+        <PackageReleaseNotes>migrated to .netstandard 2.0</PackageReleaseNotes>
+        <AssemblyVersion>1.1.0</AssemblyVersion>
+        <FileVersion>1.1.0</FileVersion>
+        <Platforms>AnyCPU;x64</Platforms>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <OutputPath>..\build\debug\</OutputPath>
+        <DefineConstants>DEBUG;TRACE</DefineConstants>
+        <PlatformTarget>x64</PlatformTarget>
+        <NoWarn>1591;1573</NoWarn>
+        <!-- <DocumentationFile>..\doc\Proxem.NumNet.Word2Vec.XML</DocumentationFile> -->
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|x64'">
+      <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+      <OutputPath>..\build\debug\</OutputPath>
+      <DefineConstants>DEBUG;TRACE</DefineConstants>
+      <PlatformTarget>x64</PlatformTarget>
+      <NoWarn>1591;1573</NoWarn>
+    </PropertyGroup>
+    
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|AnyCPU'">
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <OutputPath>..\build\release\</OutputPath>
+        <DefineConstants>TRACE</DefineConstants>
+        <PlatformTarget>x64</PlatformTarget>
+        <Optimize>true</Optimize>
+        <NoWarn>1591;1573</NoWarn>
+        <!-- <DocumentationFile>..\doc\Proxem.NumNet.Word2Vec.XML</DocumentationFile> -->
+    </PropertyGroup>
+    
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|x64'">
+      <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+      <OutputPath>..\build\release\</OutputPath>
+      <DefineConstants>TRACE</DefineConstants>
+      <PlatformTarget>x64</PlatformTarget>
+      <Optimize>true</Optimize>
+      <NoWarn>1591;1573</NoWarn>
+    </PropertyGroup>
+    
+    <ItemGroup>
+      <PackageReference Include="Proxem.NumNet" Version="1.5.0" />
+    </ItemGroup>
+</Project>
