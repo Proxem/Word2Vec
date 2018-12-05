@@ -2,23 +2,24 @@
 <package  xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
   <metadata>    
     <id>Proxem.Word2Vec</id>
-    <version>1.5.1</version>
-    <title>Proxem.Word2Vec</title>
-    <iconUrl>https://github.com/Proxem/NumNet/blob/master/logo/proxem.png?raw=true</iconUrl>
-    <authors>Guillaume Wenzek, Jocelyn Coulmance, Thomas Perrais, Jean-Marc Marty</authors>
+    <version>1.5.2</version>
+    <title>Word2Vec</title>
+    <licenseUrl>https://github.com/Proxem/Word2Vec/blob/master/LICENSE</licenseUrl>
+    <iconUrl>https://github.com/Proxem/Word2Vec/blob/master/logo/proxem.png?raw=true</iconUrl>
+    <projectUrl>https://github.com/Proxem/Word2Vec</projectUrl>
+    <authors>Guillaume Wenzek, Jocelyn Coulmance, Thomas Perrais, Amine Benhalloum, Jean-Marc Marty</authors>
     <owners>Proxem</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>
-        Package containing the base structure for word embeddings : Word2Vec.
-        Contains the base functions for loading and saving a word2vec model in a convenient format.
-        Implement the base functions for exploring word embeddings
+        Package containing a word2vec object for fast nearest neighbors search.
+        Saving and loading format are compatible with python's gensim module.
     </description>
     <releaseNotes>Remove dependency to ValueTuple when targeting .Net47+</releaseNotes>
     <copyright></copyright>
-    <tags>embeddings word2vec </tags>
+    <tags>embeddings word2vec gensim nlp</tags>
     <summary>base functions on word embeddings</summary>
     <dependencies>
-      <dependency id="Proxem.NumNet" version="1.5.1"  />
+      <dependency id="Proxem.NumNet" version="1.5.2"  />
       <dependency id="System.Text.Encoding.CodePages" version="4.5.0"  />
     </dependencies>
   </metadata>

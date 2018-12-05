@@ -1,6 +1,6 @@
 # Word2Vec
 Word2Vec library contains a word2vec object for fast neighbor search. The loading and saving format of our word2vec object are compatible with python's [gensim](https://radimrehurek.com/gensim/models/word2vec.html) library.
-The library is written in C\# and developped at [Proxem](https://proxem.com).
+The library is written in C\# and developed at [Proxem](https://proxem.com).
 
 ## Table of contents
 
@@ -11,11 +11,11 @@ The library is written in C\# and developped at [Proxem](https://proxem.com).
 
 ## Requirements
 
-Word2Vec was developped in .Net Standard 2.0 and is compatible with both .Net Framwork and .Net Core thus working on Windows and Linux platform.
+Word2Vec is developed in .Net Standard 2.0 and is compatible with both .Net Framework and .Net Core thus working on Windows and Linux platform.
 For Mac OS users there shouldn't be any problem but we didn't test extensively.
 
 NumNet relies on **BlasNet** and **NumNet** for the underlying matrix representations of the words.
-See [BlasNet](https://github.com/Proxem/BlasNet) and [NumNet](https://github.com/Proxem/NumNet) documentations for further informations.
+See [BlasNet](https://github.com/Proxem/BlasNet) and [NumNet](https://github.com/Proxem/NumNet) documentations for further information.
 
 
 ## Nuget Package
