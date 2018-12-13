@@ -330,14 +330,14 @@ namespace Proxem.Word2Vec
         {
             if (_vpTree == null)
             {
-                _vpTree = new VPTree<Array<float>>(ArrayVectors(), DotProduct);
+                _vpTree = new VPTree<Array<float>>(ArrayVectors(), MinusDotProduct);
             }
             _vpTree.Search(mb, bestw, bestd);
         }
 
-        private double DotProduct(Array<float> vec1, Array<float> vec2)
+        private double MinusDotProduct(Array<float> vec1, Array<float> vec2)
         {
-            return (double)NN.Dot(vec1, vec2);
+            return -(double)NN.Dot(vec1, vec2);
         }
 
         private Array<float>[] ArrayVectors()

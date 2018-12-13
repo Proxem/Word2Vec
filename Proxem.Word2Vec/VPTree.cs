@@ -28,11 +28,11 @@ namespace Proxem.Word2Vec
 
     public class VPTree<T>
     {
-        private int[] Indices;
-        private T[] Items;
-        private Ball Root;
+        private readonly int[] _indices;
+        private readonly T[] _items;
+        private readonly Ball _root;
 
-        private Func<T, T, double> Distance;    // euclidean distance satisfying triangle inequality
+        private readonly Func<T, T, double> _distance;    // euclidean distance satisfying triangle inequality
 
         private class Ball
         {
@@ -42,34 +42,36 @@ namespace Proxem.Word2Vec
             public Ball Right;
         }
 
-        public VPTree(T[] items, Func<T, T, double> distance, System.Random rand = null)
+        public VPTree(T[] items, Func<T, T, double> distance, Random rand = null)
         {
-            this.Indices = Enumerable.Range(0, items.Length).ToArray();
-            this.Items = items;
-            this.Distance = distance;
-            this.Root = BuildTree(0, items.Length, rand ?? new System.Random(0xBeef));
+            this._indices = Enumerable.Range(0, items.Length).ToArray();
+            this._items = items;
+            this._distance = distance;
+            this._root = BuildTree(0, items.Length, rand ?? new Random(0xBeef));
         }
 
-        private Ball BuildTree(int left, int right, System.Random rand)
+        private Ball BuildTree(int left, int right, Random rand)
         {
             if (right == left) return null;
 
-            var ball = new Ball();
-            ball.Index = left;
+            var ball = new Ball
+            {
+                Index = left
+            };
 
             if (right - left > 1)
             {
-                Swap(Indices, left, rand.Next(left + 1, right));
+                Swap(_indices, left, rand.Next(left + 1, right));
 
                 int mid = (right + left) / 2;
 
                 // rearrange indices such that
                 // - elements before mid are lower than mid
                 // - elements after mid are greater than mid
-                Partition(Indices, left + 1, right - 1, mid,
-                    (item1, item2) => Comparer<double>.Default.Compare(Distance(Items[Indices[left]], Items[item1]), Distance(Items[Indices[left]], Items[item2])));
+                Partition(_indices, left + 1, right - 1, mid,
+                    (item1, item2) => Comparer<double>.Default.Compare(_distance(_items[_indices[left]], _items[item1]), _distance(_items[_indices[left]], _items[item2])));
 
-                ball.Radius = this.Distance(Items[Indices[left]], Items[Indices[mid]]);
+                ball.Radius = this._distance(_items[_indices[left]], _items[_indices[mid]]);
 
                 ball.Left = BuildTree(left + 1, mid, rand);
                 ball.Right = BuildTree(mid, right, rand);
@@ -80,13 +82,13 @@ namespace Proxem.Word2Vec
 
         public int Search(T target, (int index, double dist)[] hits)
         {
-            int count = Search(Root, target, hits, 0);
+            int count = Search(_root, target, hits, 0);
 
             // restore original indices
             for (int i = 0; i < count; i++)
             {
-                var hit = hits[i];
-                hits[i] = (Indices[hit.index], hit.dist);
+                var (index, dist) = hits[i];
+                hits[i] = (_indices[index], dist);
             }
 
             return count;
@@ -94,12 +96,12 @@ namespace Proxem.Word2Vec
 
         public int Search(T target, int[] bestw, double[] bestd)
         {
-            int count = Search(Root, target, bestw, bestd, 0);
+            int count = Search(_root, target, bestw, bestd, 0);
 
             // restore original indices
             for (int i = 0; i < count; i++)
             {
-                bestw[i] = Indices[bestw[i]];
+                bestw[i] = _indices[bestw[i]];
             }
 
             return count;
@@ -109,7 +111,7 @@ namespace Proxem.Word2Vec
         {
             if (ball == null) return count;
 
-            double dist = this.Distance(Items[Indices[ball.Index]], target);
+            double dist = this._distance(_items[_indices[ball.Index]], target);
 
             if (count < hits.Length || dist < hits[count - 1].dist)
             {
@@ -166,7 +168,7 @@ namespace Proxem.Word2Vec
         {
             if (ball == null) return count;
 
-            double dist = this.Distance(Items[Indices[ball.Index]], target);
+            double dist = this._distance(_items[_indices[ball.Index]], target);
 
             if (count < bestd.Length || dist < bestd[count - 1])
             {
