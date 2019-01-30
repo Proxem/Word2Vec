@@ -19,7 +19,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using Proxem.NumNet;
 
 namespace Proxem.Word2Vec
@@ -56,8 +58,9 @@ namespace Proxem.Word2Vec
             return left;
         }
 
-        public static void Heapsort(float[] scores, int[] mapping, float[] bestd, int[] bestw)
+        public static void Heapsort(float[] scores, float[] bestd, int[] bestw)
         {
+            var mapping = Enumerable.Range(0, scores.Length).ToArray();
             Heapify(scores, mapping);
             var iter = 0;
             while (iter < bestd.Length)
@@ -65,14 +68,53 @@ namespace Proxem.Word2Vec
                 bestw[iter] = mapping[0];
                 bestd[iter] = scores[0];
                 scores[0] = scores[scores.Length - iter - 1];
+                mapping[0] = mapping[scores.Length - iter - 1];
                 iter++;
                 SiftDown(scores, mapping, 0, scores.Length - iter - 1);
             }
         }
 
+        public static void HeapsortParallel(Array<float> scores, float[][] bestd, int[][] bestw)
+        {
+            Parallel.ForEach(Enumerable.Range(0, scores.Shape[1]), i => 
+            {
+                HeapsortCol(scores, i, bestd, bestw);
+            });
+        }
+
+        public static void Heapsort(Array<float> scores, float[][] bestd, int[][] bestw)
+        {
+            for (int i = 0; i < scores.Shape[1]; i++)
+            {
+                HeapsortCol(scores, i, bestd, bestw);
+            }
+        }
+
+        private static void HeapsortCol(Array<float> scores, int col, float[][] bestd, int[][] bestw)
+        {
+            var mapping = Enumerable.Range(0, scores.Shape[0]).ToArray();
+            Heapify(scores, col, mapping);
+            var iter = 0;
+            while (iter < bestd[col].Length)
+            {
+                bestw[col][iter] = mapping[0];
+                bestd[col][iter] = (float)scores[0, col];
+                scores[0, col] = (float)scores[scores.Shape[0] - iter - 1, col];
+                mapping[0] = mapping[scores.Shape[0] - iter - 1];
+                iter++;
+                SiftDown(scores, col, mapping, 0, scores.Shape[0] - iter - 1);
+            }
+        }
+
         public static void Sort(float[] scores, float[] bestd, int[] bestw)
         {
-
+            var mapping = Enumerable.Range(0, scores.Length).ToArray();
+            Array.Sort(scores, mapping);
+            for (int i = 0; i < bestd.Length; i++)
+            {
+                bestd[i] = scores[i];
+                bestw[i] = mapping[i];
+            }
         }
 
         private static int Partition(float[] scores, int[] mapping, int left, float pivotValue)
@@ -112,6 +154,17 @@ namespace Proxem.Word2Vec
             }
         }
 
+        public static void Heapify(Array<float> scores, int i, int[] mapping)
+        {
+            int count = scores.Shape[0] - 1;
+            int start = Parent(count);
+            while (start >= 0)
+            {
+                SiftDown(scores, i, mapping, start, count);
+                start--;
+            }
+        }
+
         private static void SiftDown(float[] scores, int[] mapping, int start, int end)
         {
             var root = start;
@@ -135,6 +188,38 @@ namespace Proxem.Word2Vec
                     var temp = scores[root];
                     scores[root] = scores[swap];
                     scores[swap] = temp;
+                    var temp2 = mapping[root];
+                    mapping[root] = mapping[swap];
+                    mapping[swap] = temp2;
+                    root = swap;
+                    lchild = LeftChild(root);
+                }
+            }
+        }
+
+        private static void SiftDown(Array<float> scores, int i, int[] mapping, int start, int end)
+        {
+            var root = start;
+            var lchild = LeftChild(root);
+            while (lchild <= end)
+            {
+                var child = lchild;
+                var swap = root;
+                if ((float)scores[swap, i] < (float)scores[child, i])
+                {
+                    swap = child;
+                }
+                if (child + 1 <= end && (float)scores[swap, i] < (float)scores[child + 1, i])
+                {
+                    swap = child + 1;
+                }
+                if (swap == root)
+                    return;
+                else
+                {
+                    var temp = (float)scores[root, i];
+                    scores[root, i] = (float)scores[swap, i];
+                    scores[swap, i] = temp;
                     var temp2 = mapping[root];
                     mapping[root] = mapping[swap];
                     mapping[swap] = temp2;

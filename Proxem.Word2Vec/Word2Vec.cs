@@ -318,11 +318,24 @@ namespace Proxem.Word2Vec
             }
         }
 
+        public void NBestHeap(Array<float> mb, float[][] bestd, int[][] bestw)
+        {
+            Debug.Assert(mb.Shape[1] == bestd.Length && mb.Shape[1] == bestw.Length);
+            var scores = NN.Dot(Vectors, mb);
+            Sorting.Heapsort(scores, bestd, bestw);
+        }
+
+        public void NBestHeapParallel(Array<float> mb, float[][] bestd, int[][] bestw)
+        {
+            Debug.Assert(mb.Shape[1] == bestd.Length && mb.Shape[1] == bestw.Length);
+            var scores = NN.Dot(Vectors, mb);
+            Sorting.HeapsortParallel(scores, bestd, bestw);
+        }
+
         public void NBestHeap(Array<float> mb, float[] bestd, int[] bestw)
         {
             var scores = NN.Dot(Vectors, mb);
-            var mapping = Enumerable.Range(0, Text.Length).ToArray();
-            Sorting.Heapsort(scores.Values, mapping, bestd, bestw);
+            Sorting.Heapsort(scores.Values, bestd, bestw);
         }
 
         private VPTree<Array<float>> _vpTree;
