@@ -318,6 +318,26 @@ namespace Proxem.Word2Vec
             }
         }
 
+        public void NBestClassic(Array<float> mb, float[] bestd, int[] bestw)
+        {
+            var scores = NN.Dot(Vectors, mb);
+            Sorting.Sort(scores.Values, bestd, bestw);
+        }
+
+        public void NBestClassic(Array<float> mb, float[][] bestd, int[][] bestw)
+        {
+            Debug.Assert(mb.Shape[1] == bestd.Length && mb.Shape[1] == bestw.Length);
+            var scores = NN.Dot(Vectors, mb);
+            Sorting.Sort(scores, bestd, bestw);
+        }
+
+        public void NBestClassicParallel(Array<float> mb, float[][] bestd, int[][] bestw)
+        {
+            Debug.Assert(mb.Shape[1] == bestd.Length && mb.Shape[1] == bestw.Length);
+            var scores = NN.Dot(Vectors, mb);
+            Sorting.SortParallel(scores, bestd, bestw);
+        }
+
         public void NBestHeap(Array<float> mb, float[][] bestd, int[][] bestw)
         {
             Debug.Assert(mb.Shape[1] == bestd.Length && mb.Shape[1] == bestw.Length);
