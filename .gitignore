@@ -4,7 +4,6 @@ bin
 obj
 /doc/_build/
 /doc/_doxy/
-/Proxem.BlasNet/obsolete/
 /dlls/
 
 /doc/*.XML
@@ -23,7 +22,7 @@ TestResults/
 # ignore dlls
 *.dll
 *.pdb
-/dlls/mkl/learn_tensor.bat
 
 # ignore nuget packages
 *.nupkg
+*.nuspec
