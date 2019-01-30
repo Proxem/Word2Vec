@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.27428.2037
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Proxem.Word2Vec", "Proxem.Word2Vec\Proxem.Word2Vec.csproj", "{2983EE4B-BEC7-4C6A-8B49-EF7349FDEAC4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Proxem.Word2Vec.Test", "Proxem.Word2Vec.Test\Proxem.Word2Vec.Test.csproj", "{C2139CB9-74CB-4FC9-9474-1E065C32A40A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Proxem.Word2Vec.Test", "Proxem.Word2Vec.Test\Proxem.Word2Vec.Test.csproj", "{C2139CB9-74CB-4FC9-9474-1E065C32A40A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
