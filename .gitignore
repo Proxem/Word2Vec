@@ -25,4 +25,3 @@ TestResults/
 
 # ignore nuget packages
 *.nupkg
-*.nuspec
