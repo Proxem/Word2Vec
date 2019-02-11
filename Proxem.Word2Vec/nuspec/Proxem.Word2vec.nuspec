@@ -4,7 +4,7 @@
     <id>Proxem.Word2Vec</id>
     <version>1.6</version>
     <title>Word2Vec</title>
-    <licenseUrl>https://github.com/Proxem/Word2Vec/blob/master/LICENSE</licenseUrl>
+    <license type="expression">Apache-2.0</license>
     <iconUrl>https://github.com/Proxem/Word2Vec/blob/master/logo/proxem.png?raw=true</iconUrl>
     <projectUrl>https://github.com/Proxem/Word2Vec</projectUrl>
     <authors>Jocelyn Coulmance, Thomas Perrais, Guillaume Wenzek, Amine Benhalloum, Jean-Marc Marty</authors>
