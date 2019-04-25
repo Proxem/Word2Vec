@@ -146,8 +146,8 @@ namespace Proxem.Word2Vec
             Array.Sort(scores, mapping);
             for (int i = 1; i < bestd.Length + 1; i++)
             {
-                bestd[i] = scores[l - i];
-                bestw[i] = mapping[l - i];
+                bestd[i - 1] = scores[l - i];
+                bestw[i - 1] = mapping[l - i];
             }
         }
 
