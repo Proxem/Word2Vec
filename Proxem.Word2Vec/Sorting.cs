@@ -141,12 +141,13 @@ namespace Proxem.Word2Vec
         /// <param name="bestw"> array to store indices associated with highest values of score </param>
         public static void Sort(float[] scores, float[] bestd, int[] bestw)
         {
-            var mapping = Enumerable.Range(0, scores.Length).ToArray();
+            var l = scores.Length;
+            var mapping = Enumerable.Range(0, l).ToArray();
             Array.Sort(scores, mapping);
-            for (int i = 0; i < bestd.Length; i++)
+            for (int i = 1; i < bestd.Length + 1; i++)
             {
-                bestd[i] = scores[i];
-                bestw[i] = mapping[i];
+                bestd[i] = scores[l - i];
+                bestw[i] = mapping[l - i];
             }
         }
 
@@ -345,4 +346,5 @@ namespace Proxem.Word2Vec
             return (pos + 1) * 2;
         }
     }
+
 }
