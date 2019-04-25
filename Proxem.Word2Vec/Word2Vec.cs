@@ -160,6 +160,68 @@ namespace Proxem.Word2Vec
             }
         }
 
+        public static Word2Vec LoadBinaryWithFilter(string filename, List<int> selectedlines,
+            bool normalize = true, string prefix = "", Encoding encoding = null)
+        {
+            using (var stream = File.Open(filename, FileMode.Open, FileAccess.Read, FileShare.Read))
+            using (var reader = new BinaryReader(stream, encoding ?? Encoding.GetEncoding(1252)))
+            {
+                var parts = reader.ReadString('\n').Split(' ');
+                var count = int.Parse(parts[0]);
+                var size = int.Parse(parts[1]);
+
+                selectedlines.Sort();
+                if (selectedlines.Last() > count && selectedlines[0] >= 0)
+                {
+                    throw new ArgumentException("max or min value in given list of index not valid");
+                }
+
+                var vectors = new Array<float>(selectedlines.Count, size);
+                var index = new Dictionary<string, int>();
+
+                int off = 0;
+                int selectIndex = 0;
+                var buffer = vectors.Values;
+
+                for (int n = 0; n < count; n++)
+                {
+                    var word = prefix + reader.ReadString(' ').Trim();
+                    if (n == selectedlines[selectIndex])
+                    {
+                        for (int i = 0; i < size; i++)
+                        {
+                            buffer[off] = reader.ReadSingle();
+                            off++;
+                        }
+                        
+                        // allows a word to appear twice when loading the embeddings,
+                        // the vector returned by the index would be the first one
+                        if (index.ContainsKey(word))
+                            Trace.WriteLine($"Warning: word {word} appears at least twice in the embeddings {filename}");
+                        else
+                            index.Add(word, selectIndex);
+
+                        if (normalize)
+                            Normalize(vectors[selectIndex]);
+
+                        selectIndex++;
+                        if (selectIndex == selectedlines.Count)
+                        {
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        // skipping vector:
+                        for (int i = 0; i < size; i++) reader.ReadSingle();
+                    }
+                }
+
+                Trace.WriteLine(string.Format("Loaded {0} words of size {1} from {2}.", selectedlines.Count, size, filename));
+                return new Word2Vec(index, vectors);
+            }
+        }
+
         public static Word2Vec LoadText(string filename, bool normalize = true, bool addUnk = false, string prefix = "")
         {
             int maxcount = int.MaxValue;
