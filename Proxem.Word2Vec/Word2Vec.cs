@@ -103,21 +103,16 @@ namespace Proxem.Word2Vec
             }
         }
 
-        public static Word2Vec LoadBinary(string filename, bool normalize = true, bool addUnk = false, string prefix = "", Encoding encoding = null)
+        public static Word2Vec LoadBinary(string filename, bool normalize,
+            bool addUnk, string prefix = "", Encoding encoding = null, int maxCount = -1)
         {
-            int maxcount = int.MaxValue;
-            var pos = filename.IndexOf(';');
-            if (pos != -1)
-            {
-                maxcount = int.Parse(filename.Substring(pos + 1));
-                filename = filename.Substring(0, pos);
-            }
+            maxCount = maxCount < 0 ? int.MaxValue : maxCount;
             using (var stream = File.Open(filename, FileMode.Open, FileAccess.Read, FileShare.Read))
             using (var reader = new BinaryReader(stream, encoding ?? Encoding.GetEncoding(1252)))
             {
                 var parts = reader.ReadString('\n').Split(' ');
                 var extra = addUnk ? 1 : 0;
-                var count = Math.Min(maxcount, int.Parse(parts[0])) + extra;
+                var count = Math.Min(maxCount, int.Parse(parts[0])) + extra;
                 var size = int.Parse(parts[1]);
 
                 //var result = new Word2Vec(count, size);
@@ -158,6 +153,20 @@ namespace Proxem.Word2Vec
                 Trace.WriteLine(string.Format("Loaded {0} words of size {1} from {2}.", count, size, filename));
                 return new Word2Vec(index, vectors);
             }
+        }
+
+        [Obsolete("Usage of ';X' in filename to load X first words will be removed in the next version. Provide X directly through other LoadBinary function")]
+        public static Word2Vec LoadBinary(string filename, bool normalize = true,
+            bool addUnk = false, string prefix = "", Encoding encoding = null)
+        {
+            int maxcount = -1;
+            var pos = filename.IndexOf(';');
+            if (pos != -1)
+            {
+                maxcount = int.Parse(filename.Substring(pos + 1));
+                filename = filename.Substring(0, pos);
+            }
+            return LoadBinary(filename, normalize, addUnk, prefix, encoding, maxcount);
         }
 
         public static Word2Vec LoadBinaryWithFilter(string filename, List<int> selectedlines,
