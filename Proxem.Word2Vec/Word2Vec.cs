@@ -103,7 +103,7 @@ namespace Proxem.Word2Vec
             }
         }
 
-        public static Word2Vec LoadBinary(string filename, bool normalize,
+        public static Word2Vec LoadBinary(string filename, bool normalize = true,
             bool addUnk = false, string prefix = "", Encoding encoding = null, int maxCount = -1)
         {
             maxCount = maxCount < 0 ? int.MaxValue : maxCount;
