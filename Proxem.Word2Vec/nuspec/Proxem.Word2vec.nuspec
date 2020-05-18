@@ -2,7 +2,7 @@
 <package  xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
   <metadata>    
     <id>Proxem.Word2Vec</id>
-    <version>1.6.3</version>
+    <version>1.6.4</version>
     <title>Word2Vec</title>
     <license type="expression">Apache-2.0</license>
     <iconUrl>https://github.com/Proxem/Word2Vec/blob/master/logo/proxem.png?raw=true</iconUrl>
@@ -14,7 +14,7 @@
         Package containing a word2vec object for fast nearest neighbors search.
         Saving and loading format are compatible with python's gensim module.
     </description>
-    <releaseNotes>remove obsolete LoadBinary</releaseNotes>
+    <releaseNotes>fix in VPTree fast neighbors search</releaseNotes>
     <copyright></copyright>
     <tags>embeddings word2vec gensim nlp</tags>
     <summary>base functions on word embeddings</summary>
