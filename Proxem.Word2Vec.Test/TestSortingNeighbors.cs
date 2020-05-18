@@ -9,11 +9,11 @@ namespace Proxem.Word2Vec.Test
 {
     public class TestSortingNeighbors: IClassFixture<Shared>
     {
-        private Word2Vec _w2v;
+        private Word2Vec _w2v; // random matrix of shape (10, 4)
 
-        private readonly Array<float> _test_1;
-        private readonly Array<float> _test_2;
-        private Array<float> _test_3;
+        private readonly Array<float> _test_1; // random vector of shape (1, 4)
+        private readonly Array<float> _test_2; // random vector of shape (1, 4)
+        private Array<float> _test_3; // [_test_1, _test_2] concatenation, shape (4, 2)
 
         public TestSortingNeighbors(Shared shared)
         {
@@ -21,6 +21,42 @@ namespace Proxem.Word2Vec.Test
             this._test_1 = shared.Test1;
             this._test_2 = shared.Test2;
             this._test_3 = shared.Test3;
+        }
+
+        [Fact]
+        public void TestBaseline()
+        {
+            var bestd = new float[4];
+            var bestw = new int[4];
+
+            var expectedd = new float[4] { 1.34889853f, 1.17417169f, 1.15919185f, 0.866888f };
+            var expectedw = new int[4] { 8, 2, 0, 5 };
+
+            _w2v.NBest(_test_1, bestd, bestw);
+            AssertArray.AreAlmostEqual(expectedd, bestd);
+            AssertArray.AreEqual(expectedw, bestw);
+        }
+
+        [Fact]
+        public void TestBuildVPTree()
+        {
+            _w2v.NBestVPTree(_test_1, new double[5], new int[5]);
+        }
+
+        [Fact]
+        public void TestVPTree()
+        {
+            var bestd = new double[4];
+            var bestw = new int[4];
+
+            // with this test the order is not exactly the same due to the vector normalisation required by the VPTree
+            // this is not a problem as it is often better to normalize before doing the neighbors search
+            var expectedd = new double[4] { 0.132890641689301, 0.480090379714966, 0.648832619190216, 0.662571460008621 };
+            var expectedw = new int[4] { 8, 2, 5, 0 };
+
+            _w2v.NBestVPTree(_test_1, bestd, bestw);
+            AssertArray.AreAlmostEqual(expectedd, bestd);
+            AssertArray.AreEqual(expectedw, bestw);
         }
 
         [Fact]
@@ -186,19 +222,19 @@ namespace Proxem.Word2Vec.Test
         [Fact]
         public void TestQuicksortBatch()
         {
-
+            // quicksort batch is not implemented yet
         }
 
         [Fact]
         public void TestCompatibilityQuicksortBatchSingle()
         {
-
+            // quicksort batch is not implemented yet
         }
 
         [Fact]
-        public void TestCompatibilityQuicksortBatchBatchParallel()
+        public void TestCompatibilityQuicksortBatchParallel()
         {
-
+            // quicksort batch is not implemented yet
         }
 
         [Fact]

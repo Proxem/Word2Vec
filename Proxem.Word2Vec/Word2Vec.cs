@@ -422,12 +422,12 @@ namespace Proxem.Word2Vec
             {
                 _vpTree = new VPTree<Array<float>>(ArrayVectors(), MinusDotProduct);
             }
-            _vpTree.Search(mb, bestw, bestd);
+            _vpTree.Search(mb / NN.Norm(mb), bestw, bestd);
         }
 
         private double MinusDotProduct(Array<float> vec1, Array<float> vec2)
         {
-            return -(double)NN.Dot(vec1, vec2);
+            return 1 - (double)NN.Dot(vec1, vec2);
         }
 
         private Array<float>[] ArrayVectors()
@@ -435,7 +435,7 @@ namespace Proxem.Word2Vec
             var vectors = new Array<float>[Text.Length];
             for (int i = 0; i < vectors.Length; i++)
             {
-                vectors[i] = this[Text[i]];
+                vectors[i] = this[Text[i]] / NN.Norm(this[Text[i]]);
             }
             return vectors;
         }
